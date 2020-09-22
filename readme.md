@@ -17,11 +17,11 @@ Work in progress!
 ```json
   [{
         "date": "[timestamp]",
-        "data": "region_name": {
+        "data": { "region_name": {
             "change": "[float]",
             "ratio": "[float]",
             "color": "[array]",
-          } 
+          }}
     }]
 ```
 
