@@ -16,11 +16,11 @@ Work in progress!
 **Response:**
 ```json
   [{
-        "date": [timestamp],
+        "date": "[timestamp]",
         "data": "region_name": {
-            "change": [float],
-,           "ratio": [float],
-            "color": [array],
+            "change": "[float]",
+            "ratio": "[float]",
+            "color": "[array]",
           } 
     }]
 ```
