@@ -15,13 +15,21 @@ Compress(app)
 CORS(app)
 
 client = MongoClient(environ.get("MONGO_CONNECTION_STRING"))
-db = client["testing"]['movement_range_raw']
+db = client["testing"]
 
 
-@app.route('/data/daily')
+@app.route('/data/daily/district')
 @cache.cached(timeout=5000)
-def daily_time_series():
-    res = db.find({})
+def district_time_series():
+    col = db['movement_range_district']
+    res = col.find({})
+    return dumps(res)
+
+@app.route('/data/daily/province')
+@cache.cached(timeout=5000)
+def province_time_series():
+    col = db['movement_range_province']
+    res = col.find({})
     return dumps(res)
 
 

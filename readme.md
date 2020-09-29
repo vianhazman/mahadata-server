@@ -9,7 +9,15 @@ Work in progress!
 
 #### Get mobility data
 
-**URL** : `/data/daily`
+Province level data
+
+
+**URL** : `/data/daily/province`
+
+District level data
+
+
+**URL** : `/data/daily/district`
 
 **Method** : `GET`
 
