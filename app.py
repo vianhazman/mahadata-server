@@ -13,7 +13,6 @@ app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_REDIS_URL': environ.get("REDIS_CONNECTION_STRING")})
 Compress(app)
 CORS(app)
-
 client = MongoClient(environ.get("MONGO_CONNECTION_STRING"))
 db = client["testing"]
 
@@ -29,6 +28,13 @@ def district_time_series():
 @cache.cached(timeout=5000)
 def province_time_series():
     col = db['movement_range_province']
+    res = col.find({})
+    return dumps(res)
+
+@app.route('/data/case/province/')
+@cache.cached(timeout=5000)
+def province_daily_case():
+    col = db['historical_case']
     res = col.find({})
     return dumps(res)
 

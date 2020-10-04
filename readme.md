@@ -16,6 +16,7 @@ Province level data
 
 District level data
 
+*Mobility and ratio*
 
 **URL** : `/data/daily/district`
 
@@ -33,3 +34,16 @@ District level data
     }]
 ```
 
+*Daily cumulative case*
+
+**URL** : `/data/case/province`
+
+**Method** : `GET`
+
+**Response:**
+```json
+  [{
+        "date": "[timestamp]",
+        "data": { "region_name": "[int]"}
+    }]
+```
