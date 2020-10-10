@@ -3,7 +3,6 @@ services:
   web:
     build:
       context: .
-      network: host
     volumes:
       - .:/code
     ports:
