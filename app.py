@@ -13,9 +13,15 @@ app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_REDIS_URL': environ.get("REDIS_CONNECTION_STRING")})
 Compress(app)
 CORS(app)
-client = MongoClient(environ.get("MONGO_CONNECTION_STRING"))
+client = MongoClient('mongodb://10.119.105.232:27017/', username='root', password='rootpassword')
 db = client["testing"]
 
+@app.route('/data/rank/')
+@cache.cached(timeout=5000)
+def get_rank():
+    col = db['movement_range_district']
+    res = col.find({})
+    return dumps(res)
 
 @app.route('/data/daily/district')
 @cache.cached(timeout=5000)
