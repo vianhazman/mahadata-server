@@ -20,6 +20,12 @@ db = client["testing"]
 
 RANK_NUMBER = 3
 
+
+def sort_dict(res, field):
+    res_sorted = [{k: v[field]} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], field))]
+    return {"top": res_sorted[-RANK_NUMBER:], "bottom": res_sorted[:RANK_NUMBER]}
+
+
 @app.route('/data/rank/<area_type>/<rank_date>')
 @cache.cached(timeout=5000)
 def get_rank(area_type, rank_date):
@@ -27,10 +33,8 @@ def get_rank(area_type, rank_date):
     col = db[col_name]
     res = col.find_one({'date': rank_date})
     res = res['data']
-    ratio_sorted = [{k: v['ratio']} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], 'ratio'))]
-    change_sorted = [{k: v['change']} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], 'change'))]
-    ratio_rank = {"top": ratio_sorted[-RANK_NUMBER:], "bottom": ratio_sorted[:RANK_NUMBER]}
-    change_rank = {"top": change_sorted[-RANK_NUMBER:], "bottom": change_sorted[:RANK_NUMBER]}
+    ratio_rank = sort_dict(res, 'ratio')
+    change_rank = sort_dict(res, 'change')
     payload = {"ratio": ratio_rank, "change": change_rank}
     return dumps(payload)
 
