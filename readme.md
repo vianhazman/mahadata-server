@@ -47,3 +47,49 @@ District level data
         "data": { "region_name": "[int]"}
     }]
 ```
+
+*Get ranking data*
+
+**URL** : `/data/rank/<district OR province>/<date in YYYY-MM-DD>
+`
+
+**Method** : `GET`
+
+**Response:**
+```
+{
+	"ratio": {
+		"top": [{
+			"Sarmi": 28.0
+		}, {
+			"Mappi": 29.0
+		}, {
+			"Paniai": 31.0
+		}],
+		"bottom": [{
+			"Salatiga": 11.0
+		}, {
+			"Sukoharjo": 11.0
+		}, {
+			"Karanganyar": 11.0
+		}]
+	},
+	"change": {
+		"top": [{
+			"Bombana": 14.0
+		}, {
+			"Takalar": 19.0
+		}, {
+			"Mandailing Natal": 21.0
+		}],
+		"bottom": [{
+			"Kota Yogyakarta": -12.0
+		}, {
+			"Jakarta Pusat": -11.0
+		}, {
+			"Manggarai Timur": -11.0
+		}]
+	}
+}
+```
+

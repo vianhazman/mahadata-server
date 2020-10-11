@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+import operator
+
+from flask import Flask, jsonify, request
 from bson.json_util import dumps
 from flask_caching import Cache
 from pymongo import MongoClient
@@ -13,15 +15,25 @@ app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_REDIS_URL': environ.get("REDIS_CONNECTION_STRING")})
 Compress(app)
 CORS(app)
-client = MongoClient('mongodb://10.119.105.232:27017/', username='root', password='rootpassword')
+client = MongoClient(environ.get("MONGO_CONNECTION_STRING"))
 db = client["testing"]
 
-@app.route('/data/rank/')
+RANK_NUMBER = 3
+
+@app.route('/data/rank/<area_type>/<rank_date>')
 @cache.cached(timeout=5000)
-def get_rank():
-    col = db['movement_range_district']
-    res = col.find({})
-    return dumps(res)
+def get_rank(area_type, rank_date):
+    col_name = 'movement_range_{}'.format(area_type)
+    col = db[col_name]
+    res = col.find_one({'date': rank_date})
+    res = res['data']
+    ratio_sorted = [{k: v['ratio']} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], 'ratio'))]
+    change_sorted = [{k: v['change']} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], 'change'))]
+    ratio_rank = {"top": ratio_sorted[-RANK_NUMBER:], "bottom": ratio_sorted[:RANK_NUMBER]}
+    change_rank = {"top": change_sorted[-RANK_NUMBER:], "bottom": change_sorted[:RANK_NUMBER]}
+    payload = {"ratio": ratio_rank, "change": change_rank}
+    return dumps(payload)
+
 
 @app.route('/data/daily/district')
 @cache.cached(timeout=5000)
@@ -30,12 +42,14 @@ def district_time_series():
     res = col.find({})
     return dumps(res)
 
+
 @app.route('/data/daily/province')
 @cache.cached(timeout=5000)
 def province_time_series():
     col = db['movement_range_province']
     res = col.find({})
     return dumps(res)
+
 
 @app.route('/data/case/province/')
 @cache.cached(timeout=5000)
