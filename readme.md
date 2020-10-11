@@ -50,7 +50,7 @@ District level data
 
 *Get ranking data*
 
-**URL** : `/data/rank/<district OR province>/<date in YYYY-MM-DD>
+**URL** : `/data/rank/<district OR province>
 `
 
 **Method** : `GET`

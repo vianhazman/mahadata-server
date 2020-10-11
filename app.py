@@ -18,26 +18,13 @@ CORS(app)
 client = MongoClient(environ.get("MONGO_CONNECTION_STRING"))
 db = client["testing"]
 
-RANK_NUMBER = 3
-
-
-def sort_dict(res, field):
-    res_sorted = [{k: v[field]} for k, v in sorted(res.items(), key=lambda x: operator.getitem(x[1], field))]
-    return {"top": res_sorted[-RANK_NUMBER:], "bottom": res_sorted[:RANK_NUMBER]}
-
-
-@app.route('/data/rank/<area_type>/<rank_date>')
+@app.route('/data/rank/<area_type>')
 @cache.cached(timeout=5000)
-def get_rank(area_type, rank_date):
-    col_name = 'movement_range_{}'.format(area_type)
+def get_rank(area_type):
+    col_name = 'rank_{}'.format(area_type)
     col = db[col_name]
-    res = col.find_one({'date': rank_date})
-    res = res['data']
-    ratio_rank = sort_dict(res, 'ratio')
-    change_rank = sort_dict(res, 'change')
-    payload = {"ratio": ratio_rank, "change": change_rank}
-    return dumps(payload)
-
+    res = col.find({})
+    return dumps(res)
 
 @app.route('/data/daily/district')
 @cache.cached(timeout=5000)
