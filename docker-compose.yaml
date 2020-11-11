@@ -7,8 +7,9 @@ services:
       - .:/code
     ports:
       - 5000:5000
-
+    restart: always
     depends_on:
       - redis
   redis:
     image: "redis:alpine"
+    restart: always
