@@ -77,12 +77,12 @@ def province_daily_case():
 
 @app.route('/data/case/province/download/')
 def province_daily_case_download():
-    csv_str = generate_time_series_csv('movement_range_province')
+    csv_str = generate_case_csv('historical_case')
     return Response(
         csv_str,
         mimetype="text/csv",
         headers={"Content-disposition":
-                 "attachment; filename=mobilitas_provinsi.csv"})
+                 "attachment; filename=kasus_harian_provinsi.csv"})
 
 
 @app.route('/data/daily/district/download/')
@@ -96,12 +96,12 @@ def district_time_series_download():
 
 @app.route('/data/daily/province/download/')
 def province_time_series_download():
-    csv_str = generate_case_csv('historical_case')
+    csv_str = generate_time_series_csv('movement_range_province')
     return Response(
         csv_str,
         mimetype="text/csv",
         headers={"Content-disposition":
-                 "attachment; filename=kasus_harian_provinsi.csv"})
+                 "attachment; filename=mobilitas_provinsi.csv"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=environ.get("RUNNING_PORT"))
