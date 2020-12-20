@@ -75,7 +75,7 @@ def province_daily_case():
     res = col.find({})
     return dumps(res)
 
-@app.route('/data/case/province/download/')
+@app.route('/data/case/province/download/'+environ.get("SECRET_PATH"))
 def province_daily_case_download():
     csv_str = generate_case_csv('historical_case')
     return Response(
@@ -85,7 +85,7 @@ def province_daily_case_download():
                  "attachment; filename=kasus_harian_provinsi.csv"})
 
 
-@app.route('/data/daily/district/download/')
+@app.route('/data/daily/district/download/'+environ.get("SECRET_PATH"))
 def district_time_series_download():
     csv_str = generate_time_series_csv('movement_range_district')
     return Response(
@@ -94,7 +94,7 @@ def district_time_series_download():
         headers={"Content-disposition":
                  "attachment; filename=mobilitas_kabkot.csv"})
 
-@app.route('/data/daily/province/download/')
+@app.route('/data/daily/province/download/'+environ.get("SECRET_PATH"))
 def province_time_series_download():
     csv_str = generate_time_series_csv('movement_range_province')
     return Response(
