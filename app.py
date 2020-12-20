@@ -78,7 +78,7 @@ def province_daily_case():
 @app.route('/data/case/province/download/')
 def province_daily_case_download():
     csv_str = generate_time_series_csv('movement_range_province')
-     return Response(
+    return Response(
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
@@ -88,7 +88,7 @@ def province_daily_case_download():
 @app.route('/data/daily/district/download/')
 def district_time_series_download():
     csv_str = generate_time_series_csv('movement_range_district')
-     return Response(
+    return Response(
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
@@ -97,7 +97,7 @@ def district_time_series_download():
 @app.route('/data/daily/province/download/')
 def province_time_series_download():
     csv_str = generate_case_csv('historical_case')
-     return Response(
+    return Response(
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
