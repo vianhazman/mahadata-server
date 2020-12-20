@@ -79,7 +79,7 @@ def province_daily_case():
 def province_daily_case_download():
     csv_str = generate_time_series_csv('movement_range_province')
     return Response(
-        csv,
+        csv_str,
         mimetype="text/csv",
         headers={"Content-disposition":
                  "attachment; filename=mobilitas_provinsi.csv"})
@@ -89,7 +89,7 @@ def province_daily_case_download():
 def district_time_series_download():
     csv_str = generate_time_series_csv('movement_range_district')
     return Response(
-        csv,
+        csv_str,
         mimetype="text/csv",
         headers={"Content-disposition":
                  "attachment; filename=mobilitas_kabkot.csv"})
@@ -98,7 +98,7 @@ def district_time_series_download():
 def province_time_series_download():
     csv_str = generate_case_csv('historical_case')
     return Response(
-        csv,
+        csv_str,
         mimetype="text/csv",
         headers={"Content-disposition":
                  "attachment; filename=kasus_harian_provinsi.csv"})
